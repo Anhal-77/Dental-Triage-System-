@@ -17,7 +17,7 @@
       </a>
       <nav class="main-nav" aria-label="القائمة الرئيسية">
         <a href="#about">عن النظام</a>
-        <a href="#steps">خطوات الفرز</a>
+        <a href="#triage">الفرز</a>
         <a href="#contact">اتصل بنا</a>
       </nav>
       <button class="menu-toggle" aria-label="قائمة">☰</button>
@@ -28,7 +28,7 @@
     <section class="hero">
       <div class="container hero-inner">
         <h1>فرّز الأعراض بسرعة وقرّر أولويات العلاج</h1>
-        <p class="lead">أجب عن الأسئلة التالية بدقة. الإجابات تظهر تحت كل سؤال بشكل عمودي لتسهيل القراءة والاختيار.</p>
+        <p class="lead">أجب عن الأسئلة التالية بدقّة. الإجابات تظهر تحت كل سؤال بشكل عمودي لتسهيل القراءة.</p>
         <p class="cta-row">
           <a class="btn primary" href="#triage">ابدأ الفحص</a>
           <a class="btn outline" href="#about">المزيد عن النظام</a>
@@ -44,44 +44,44 @@
         <div class="question">
           <label class="q-title">1. ما شدة الألم الآن؟</label>
           <div class="options">
-            <label class="option"><input type="radio" name="pain" value="none"> لا ألم</label>
-            <label class="option"><input type="radio" name="pain" value="mild"> ألم بسيط</label>
-            <label class="option"><input type="radio" name="pain" value="moderate"> ألم متوسط</label>
-            <label class="option"><input type="radio" name="pain" value="severe"> ألم شديد</label>
+            <label class="option"><input type="radio" name="pain" value="none"><span>لا ألم</span></label>
+            <label class="option"><input type="radio" name="pain" value="mild"><span>ألم بسيط</span></label>
+            <label class="option"><input type="radio" name="pain" value="moderate"><span>ألم متوسط</span></label>
+            <label class="option"><input type="radio" name="pain" value="severe"><span>ألم شديد</span></label>
           </div>
         </div>
 
         <div class="question">
           <label class="q-title">2. هل هناك تورم واضح في الوجه أو الفك؟</label>
           <div class="options">
-            <label class="option"><input type="radio" name="swelling" value="no"> لا</label>
-            <label class="option"><input type="radio" name="swelling" value="mild"> طفيف</label>
-            <label class="option"><input type="radio" name="swelling" value="severe"> واضح ومؤلم</label>
+            <label class="option"><input type="radio" name="swelling" value="no"><span>لا</span></label>
+            <label class="option"><input type="radio" name="swelling" value="mild"><span>طفيف</span></label>
+            <label class="option"><input type="radio" name="swelling" value="severe"><span>واضح ومؤلم</span></label>
           </div>
         </div>
 
         <div class="question">
           <label class="q-title">3. هل يوجد نزيف مستمر أو خروج صديد؟</label>
           <div class="options">
-            <label class="option"><input type="radio" name="bleeding" value="no"> لا</label>
-            <label class="option"><input type="radio" name="bleeding" value="minor"> نزيف طفيف</label>
-            <label class="option"><input type="radio" name="bleeding" value="heavy"> نزيف مستمر أو صديد</label>
+            <label class="option"><input type="radio" name="bleeding" value="no"><span>لا</span></label>
+            <label class="option"><input type="radio" name="bleeding" value="minor"><span>نزيف طفيف</span></label>
+            <label class="option"><input type="radio" name="bleeding" value="heavy"><span>نزيف مستمر أو صديد</span></label>
           </div>
         </div>
 
         <div class="question">
           <label class="q-title">4. هل لديك حمى أو شعور عام بالتوعك؟</label>
           <div class="options">
-            <label class="option"><input type="radio" name="fever" value="no"> لا</label>
-            <label class="option"><input type="radio" name="fever" value="yes"> نعم</label>
+            <label class="option"><input type="radio" name="fever" value="no"><span>لا</span></label>
+            <label class="option"><input type="radio" name="fever" value="yes"><span>نعم</span></label>
           </div>
         </div>
 
         <div class="question">
           <label class="q-title">5. هل تعرّضت لصدمة أو حادث مؤخراً (كسر، ضربة)؟</label>
           <div class="options">
-            <label class="option"><input type="radio" name="trauma" value="no"> لا</label>
-            <label class="option"><input type="radio" name="trauma" value="yes"> نعم</label>
+            <label class="option"><input type="radio" name="trauma" value="no"><span>لا</span></label>
+            <label class="option"><input type="radio" name="trauma" value="yes"><span>نعم</span></label>
           </div>
         </div>
 
@@ -148,7 +148,7 @@
         return {level:'عاجلة', color:'#f0ad4e', text:'ألم شديد أو تورّم يستدعي موعد عاجل خلال 24-48 ساعة.'};
       }
       if(pain === 'moderate' || bleeding === 'minor'){
-        return {level:'متوسطة', color:'#5bc0de', text:'يمكن حجز موعد خلال أيام قليلة أو اتباع نصائح منزلية موقتة.'};
+        return {level:'متو��طة', color:'#5bc0de', text:'يمكن حجز موعد خلال أيام قليلة أو اتباع نصائح منزلية موقتة.'};
       }
       return {level:'روتينية', color:'#5cb85c', text:'لا يعد الوضع طارئًا. متابعة مع زيارة روتينية للطبيب عند الحاجة.'};
     }
@@ -163,7 +163,8 @@
       const res = evaluate();
       resultTitle.textContent = `نتيجة التقييم: ${res.level}`;
       resultText.textContent = res.text;
-      resultEl.style.borderLeft = `6px solid ${res.color}`;
+      // RTL-aware border
+      resultEl.style.borderInlineStart = `6px solid ${res.color}`;
       resultEl.hidden = false;
       resultEl.scrollIntoView({behavior:'smooth', block:'center'});
     });
