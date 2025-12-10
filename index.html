@@ -12,7 +12,6 @@
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="/">
-        <!-- ضع هنا مسار الشعار إن وجد -->
         <img src="assets/img/logo.png" alt="شعار الموقع" class="logo" onerror="this.style.display='none'">
         <span class="brand-text">نظام فرز الأسنان</span>
       </a>
@@ -29,35 +28,80 @@
     <section class="hero">
       <div class="container hero-inner">
         <h1>فرّز الأعراض بسرعة وقرّر أولويات العلاج</h1>
-        <p class="lead">نظام إلكتروني بسيط يساعد في تصنيف حالات الأسنان الطارئة وتوجيه المريض أو المزود الطبي للخطوة المناسبة.</p>
+        <p class="lead">أجب عن الأسئلة التالية بدقة. الإجابات تظهر تحت كل سؤال بشكل عمودي لتسهيل القراءة والاختيار.</p>
         <p class="cta-row">
-          <a class="btn primary" href="#steps">ابدأ الآن</a>
+          <a class="btn primary" href="#triage">ابدأ الفحص</a>
           <a class="btn outline" href="#about">المزيد عن النظام</a>
         </p>
       </div>
     </section>
 
-    <section id="steps" class="container section">
-      <h2 class="section-title">خطوات الفرز</h2>
-      <div class="grid cards">
-        <article class="card">
-          <h3>1. جمع الأعراض</h3>
-          <p>إجابة سريعة عن الألم، التورم، النزيف، أو الحمى.</p>
-        </article>
-        <article class="card">
-          <h3>2. تقييم الشدة</h3>
-          <p>تحديد ما إذا كانت الحالة طارئة، عاجلة، أم روتينية.</p>
-        </article>
-        <article class="card">
-          <h3>3. التوجيه</h3>
-          <p>اقتراح موعد أو إحالة للطوارئ أو نصائح منزلية أولية.</p>
-        </article>
-      </div>
+    <section id="triage" class="container section">
+      <h2 class="section-title">نموذج الفرز السريع</h2>
+
+      <form id="triageForm" class="triage-form" onsubmit="return false;">
+
+        <div class="question">
+          <label class="q-title">1. ما شدة الألم الآن؟</label>
+          <div class="options">
+            <label class="option"><input type="radio" name="pain" value="none"> لا ألم</label>
+            <label class="option"><input type="radio" name="pain" value="mild"> ألم بسيط</label>
+            <label class="option"><input type="radio" name="pain" value="moderate"> ألم متوسط</label>
+            <label class="option"><input type="radio" name="pain" value="severe"> ألم شديد</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="q-title">2. هل هناك تورم واضح في الوجه أو الفك؟</label>
+          <div class="options">
+            <label class="option"><input type="radio" name="swelling" value="no"> لا</label>
+            <label class="option"><input type="radio" name="swelling" value="mild"> طفيف</label>
+            <label class="option"><input type="radio" name="swelling" value="severe"> واضح ومؤلم</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="q-title">3. هل يوجد نزيف مستمر أو خروج صديد؟</label>
+          <div class="options">
+            <label class="option"><input type="radio" name="bleeding" value="no"> لا</label>
+            <label class="option"><input type="radio" name="bleeding" value="minor"> نزيف طفيف</label>
+            <label class="option"><input type="radio" name="bleeding" value="heavy"> نزيف مستمر أو صديد</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="q-title">4. هل لديك حمى أو شعور عام بالتوعك؟</label>
+          <div class="options">
+            <label class="option"><input type="radio" name="fever" value="no"> لا</label>
+            <label class="option"><input type="radio" name="fever" value="yes"> نعم</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="q-title">5. هل تعرّضت لصدمة أو حادث مؤخراً (كسر، ضربة)؟</label>
+          <div class="options">
+            <label class="option"><input type="radio" name="trauma" value="no"> لا</label>
+            <label class="option"><input type="radio" name="trauma" value="yes"> نعم</label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button id="evaluateBtn" class="btn primary">تقييم الحالة</button>
+          <button id="resetBtn" class="btn outline" type="button">إعادة ضبط</button>
+        </div>
+
+        <div id="result" class="result-card" aria-live="polite" hidden>
+          <h3 id="resultTitle"></h3>
+          <p id="resultText"></p>
+        </div>
+
+      </form>
+
     </section>
 
     <section id="about" class="container section muted">
       <h2 class="section-title">عن النظام</h2>
-      <p>هذا النظام مصمّم لمساعدة الممارسين والمرضى على حد سواء لتقييم حالات الأسنان وتحديد مستوى الأولوية. يمكن ربطه بسجل المريض أو استخدامه كأداة مستقلة لتقديم إرشادات سريعة.</p>
+      <p>هذا النظام مصمّم لمساعدة الممارسين والمرضى على حد سواء لتقييم حالات الأسنان وتحديد مستوى الأولوية. المعلومات المعروضة هي إشارات إرشادية وليست بديلاً عن الفحص الطبي.</p>
     </section>
 
     <section id="contact" class="container section">
@@ -73,14 +117,60 @@
   </footer>
 
   <script>
-    // سنة تلقائية
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // تبسيط قائمة الهاتف
+    // قائمة الهاتف
     const toggle = document.querySelector('.menu-toggle');
     const nav = document.querySelector('.main-nav');
-    toggle && toggle.addEventListener('click', () => {
-      nav.classList.toggle('open');
+    toggle && toggle.addEventListener('click', () => { nav.classList.toggle('open'); });
+
+    // تقييم الفرز
+    function getValue(name){
+      const el = document.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+
+    function evaluate(){
+      const pain = getValue('pain');
+      const swelling = getValue('swelling');
+      const bleeding = getValue('bleeding');
+      const fever = getValue('fever');
+      const trauma = getValue('trauma');
+
+      // قواعد بسيطة لتحديد الأولوية
+      if(trauma === 'yes' || bleeding === 'heavy' || swelling === 'severe'){
+        return {level:'طارئة', color:'#d9534f', text:'قد تحتاج الحالة لتوجّه فوري إلى قسم الطوارئ أو طبيب مختص. تواصل مع الطوارئ أو عيادة قريبة.'};
+      }
+      if(fever === 'yes' && swelling !== 'no'){
+        return {level:'عاجلة', color:'#f0ad4e', text:'يوجد احتمال التهاب منتشر؛ يُستحسن مراجعة الطبيب خلال 24 ساعة.'};
+      }
+      if(pain === 'severe' || swelling === 'mild' && pain === 'moderate'){
+        return {level:'عاجلة', color:'#f0ad4e', text:'ألم شديد أو تورّم يستدعي موعد عاجل خلال 24-48 ساعة.'};
+      }
+      if(pain === 'moderate' || bleeding === 'minor'){
+        return {level:'متوسطة', color:'#5bc0de', text:'يمكن حجز موعد خلال أيام قليلة أو اتباع نصائح منزلية موقتة.'};
+      }
+      return {level:'روتينية', color:'#5cb85c', text:'لا يعد الوضع طارئًا. متابعة مع زيارة روتينية للطبيب عند الحاجة.'};
+    }
+
+    const evaluateBtn = document.getElementById('evaluateBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const resultEl = document.getElementById('result');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultText = document.getElementById('resultText');
+
+    evaluateBtn.addEventListener('click', () => {
+      const res = evaluate();
+      resultTitle.textContent = `نتيجة التقييم: ${res.level}`;
+      resultText.textContent = res.text;
+      resultEl.style.borderLeft = `6px solid ${res.color}`;
+      resultEl.hidden = false;
+      resultEl.scrollIntoView({behavior:'smooth', block:'center'});
+    });
+
+    resetBtn.addEventListener('click', () => {
+      document.getElementById('triageForm').reset();
+      resultEl.hidden = true;
     });
   </script>
 </body>
