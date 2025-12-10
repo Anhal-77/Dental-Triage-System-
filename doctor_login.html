@@ -1,92 +1,744 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل دخول الأطباء</title>
-    <link rel="stylesheet" href="styles.css"> 
-    <style>
-        /* تنسيق خاص لشاشة تسجيل الدخول */
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #e9ecef;
-        }
+    <meta name="description" content="لوحة تحكم الأطباء - نظام فرز طوارئ الأسنان">
+    <title>دخول الأطباء - نظام فرز طوارئ الأسنان</title>
+
+```
+<!-- ربط ملف CSS -->
+<link rel="stylesheet" href="Styles.css">
+
+<!-- خطوط عربية -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+    /* أنماط إضافية خاصة بصفحة الأطباء */
+    .login-container {
+        min-height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+    }
+
+    .login-box {
+        background: white;
+        border-radius: 1rem;
+        padding: 3rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        max-width: 450px;
+        width: 100%;
+    }
+
+    .login-icon {
+        font-size: 4rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .login-box h2 {
+        text-align: center;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+        font-size: 1.75rem;
+    }
+
+    .dashboard {
+        display: none;
+    }
+
+    .dashboard.active {
+        display: block;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        border-left: 4px solid;
+    }
+
+    .stat-card.immediate {
+        border-color: #DC2626;
+    }
+
+    .stat-card.urgent {
+        border-color: #F97316;
+    }
+
+    .stat-card.semi-urgent {
+        border-color: #FBBF24;
+    }
+
+    .stat-card.standard {
+        border-color: #10B981;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        font-weight: 600;
+    }
+
+    .dashboard-header {
+        background: white;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .filters {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        padding: 0.5rem 1rem;
+        border: 2px solid var(--border-color);
+        background: white;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+        border-color: var(--primary-color);
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .empty-state-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+
+    .patient-details-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    .patient-details-modal.active {
+        display: flex;
+    }
+
+    .modal-content {
+        background: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        max-width: 800px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        background: var(--danger-color);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        cursor: pointer;
+        font-size: 1.5rem;
+        line-height: 1;
+    }
+
+    .detail-section {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: var(--bg-light);
+        border-radius: 0.5rem;
+    }
+
+    .detail-section h4 {
+        color: var(--primary-color);
+        margin-bottom: 0.75rem;
+        font-size: 1.125rem;
+    }
+
+    .detail-row {
+        display: flex;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        min-width: 150px;
+        color: var(--text-secondary);
+    }
+
+    .detail-value {
+        flex: 1;
+        color: var(--text-primary);
+    }
+
+    @media (max-width: 768px) {
         .login-box {
-            max-width: 400px;
-            width: 100%;
-            padding: 40px;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 2rem 1.5rem;
         }
-        .login-box h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #007bff;
-            border-bottom: none;
+
+        .stats-grid {
+            grid-template-columns: 1fr;
         }
-        .login-box button {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1.1em;
-            transition: background-color 0.3s;
+
+        .dashboard-header {
+            flex-direction: column;
+            align-items: stretch;
         }
-        .login-box button:hover {
-            background-color: #0056b3;
+
+        .filters {
+            justify-content: center;
         }
-    </style>
+
+        .detail-row {
+            flex-direction: column;
+        }
+
+        .detail-label {
+            margin-bottom: 0.25rem;
+        }
+    }
+</style>
+```
+
 </head>
 <body>
-    <div class="login-box">
-        <h2>تسجيل دخول الطبيب</h2>
-        
-        <div class="input-group">
-            <label for="username">اسم المستخدم (Username):</label>
-            <input type="text" id="username" required>
+
+```
+<!-- الهيدر -->
+<header class="main-header">
+    <div class="container">
+        <div class="header-content">
+            <div class="logo">
+                <h1>👨‍⚕️ لوحة تحكم الأطباء</h1>
+                <p class="subtitle">نظام فرز طوارئ الأسنان</p>
+            </div>
+            <nav class="header-nav">
+                <a href="index.html" class="nav-link">الصفحة الرئيسية</a>
+                <a href="doctor_login.html" class="nav-link active">لوحة التحكم</a>
+                <button id="logout-btn" class="btn btn-secondary btn-sm" style="display: none;" onclick="logout()">تسجيل خروج</button>
+            </nav>
         </div>
-        
-        <div class="input-group">
-            <label for="password">كلمة السر (Password):</label>
-            <input type="password" id="password" required>
-        </div>
-        
-        <button onclick="handleLogin()">دخول</button>
-        
-        <div id="login-message" style="color: red; text-align: center; margin-top: 15px; display: none;"></div>
-        
     </div>
+</header>
 
-    <script>
-        // ملاحظة هامة: هذا التحقق هو للمثال والتجربة المحلية فقط. 
-        // يجب أن يتم التحقق الفعلي لكلمة السر عبر الواجهة الخلفية (Backend) لأسباب أمنية.
-        const CORRECT_PASSWORD = "Doctor123";
-        const CORRECT_USERNAME = "AdminDoc";
+<!-- المحتوى الرئيسي -->
+<main class="main-content">
+    <div class="container">
+        
+        <!-- صندوق تسجيل الدخول -->
+        <div id="login-section" class="login-container">
+            <div class="login-box">
+                <div class="login-icon">🔐</div>
+                <h2>تسجيل دخول الأطباء</h2>
+                
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">اسم المستخدم</label>
+                        <input type="text" id="username" name="username" required placeholder="أدخل اسم المستخدم">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">كلمة المرور</label>
+                        <input type="password" id="password" name="password" required placeholder="أدخل كلمة المرور">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; font-weight: normal;">
+                            <input type="checkbox" id="remember" style="margin-left: 0.5rem;">
+                            تذكرني
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">تسجيل الدخول</button>
+                    
+                    <p style="margin-top: 1rem; text-align: center; font-size: 0.875rem; color: var(--text-secondary);">
+                        💡 للتجربة: المستخدم: <strong>doctor</strong> | كلمة المرور: <strong>1234</strong>
+                    </p>
+                </form>
+            </div>
+        </div>
 
-        function handleLogin() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const messageArea = document.getElementById('login-message');
+        <!-- لوحة التحكم -->
+        <div id="dashboard-section" class="dashboard">
+            
+            <!-- رأس لوحة التحكم -->
+            <div class="dashboard-header">
+                <div>
+                    <h2 style="margin: 0; color: var(--primary-color);">قائمة المرضى</h2>
+                    <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary);" id="current-time"></p>
+                </div>
+                <div class="filters">
+                    <button class="filter-btn active" onclick="filterPatients('all')">الكل</button>
+                    <button class="filter-btn" onclick="filterPatients('immediate')" style="color: #DC2626;">طارئة جداً</button>
+                    <button class="filter-btn" onclick="filterPatients('urgent')" style="color: #F97316;">عاجل</button>
+                    <button class="filter-btn" onclick="filterPatients('semi_urgent')" style="color: #FBBF24;">شبه عاجل</button>
+                    <button class="filter-btn" onclick="filterPatients('standard')" style="color: #10B981;">قياسي</button>
+                </div>
+                <div>
+                    <button class="btn btn-primary btn-sm" onclick="refreshPatients()">🔄 تحديث</button>
+                    <button class="btn btn-secondary btn-sm" onclick="exportData()">📥 تصدير</button>
+                    <button class="btn btn-danger btn-sm" onclick="clearAllData()">🗑️ مسح الكل</button>
+                </div>
+            </div>
 
-            if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
-                // في التطبيق الحقيقي: يتم توجيه الطبيب إلى لوحة التحكم
-                messageArea.style.color = 'green';
-                messageArea.textContent = 'تم تسجيل الدخول بنجاح! جاري التوجيه للوحة التحكم...';
-                messageArea.style.display = 'block';
-                // window.location.href = '/doctor-dashboard'; 
-            } else {
-                messageArea.style.color = 'red';
-                messageArea.textContent = 'خطأ في اسم المستخدم أو كلمة السر.';
-                messageArea.style.display = 'block';
+            <!-- إحصائيات -->
+            <div class="stats-grid" id="stats-grid">
+                <!-- سيتم ملؤها ديناميكياً -->
+            </div>
+
+            <!-- قائمة المرضى -->
+            <div id="patients-list">
+                <!-- سيتم ملؤها ديناميكياً -->
+            </div>
+
+        </div>
+
+    </div>
+</main>
+
+<!-- نافذة تفاصيل المريض -->
+<div id="patient-modal" class="patient-details-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal()">×</button>
+        <div id="modal-body">
+            <!-- سيتم ملؤها ديناميكياً -->
+        </div>
+    </div>
+</div>
+
+<!-- الفوتر -->
+<footer class="main-footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>نظام فرز طوارئ الأسنان</h3>
+                <p>لوحة تحكم الأطباء - إدارة حالات الطوارئ</p>
+            </div>
+            <div class="footer-section">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="index.html">الصفحة الرئيسية</a></li>
+                    <li><a href="doctor_login.html">لوحة التحكم</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>دعم فني</h4>
+                <p>📞 الدعم: 920000000</p>
+                <p>📧 البريد: support@dental-triage.sa</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 نظام فرز طوارئ الأسنان. جميع الحقوق محفوظة.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- ربط ملف JavaScript الرئيسي -->
+<script src="script.js"></script>
+
+<!-- JavaScript خاص بصفحة الأطباء -->
+<script>
+    // متغيرات عامة
+    let currentFilter = 'all';
+    let isLoggedIn = false;
+
+    // التحقق من تسجيل الدخول عند تحميل الصفحة
+    window.addEventListener('DOMContentLoaded', function() {
+        checkLoginStatus();
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 60000); // تحديث كل دقيقة
+    });
+
+    // التحقق من حالة تسجيل الدخول
+    function checkLoginStatus() {
+        const savedLogin = localStorage.getItem('doctorLoggedIn');
+        if (savedLogin === 'true') {
+            showDashboard();
+        }
+    }
+
+    // تحديث الوقت الحالي
+    function updateCurrentTime() {
+        const now = new Date();
+        const timeString = now.toLocaleString('ar-SA', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        const timeElement = document.getElementById('current-time');
+        if (timeElement) {
+            timeElement.textContent = timeString;
+        }
+    }
+
+    // معالجة تسجيل الدخول
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const remember = document.getElementById('remember').checked;
+
+        // التحقق البسيط (يمكن تطويره لاحقاً مع API)
+        if (username === 'doctor' && password === '1234') {
+            if (remember) {
+                localStorage.setItem('doctorLoggedIn', 'true');
+            }
+            showDashboard();
+        } else {
+            alert('❌ اسم المستخدم أو كلمة المرور غير صحيحة');
+        }
+    });
+
+    // عرض لوحة التحكم
+    function showDashboard() {
+        isLoggedIn = true;
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('dashboard-section').classList.add('active');
+        document.getElementById('logout-btn').style.display = 'inline-block';
+        loadPatientsForDoctor();
+        updateStats();
+    }
+
+    // تسجيل الخروج
+    function logout() {
+        localStorage.removeItem('doctorLoggedIn');
+        location.reload();
+    }
+
+    // تحميل قائمة المرضى
+    function loadPatientsForDoctor() {
+        const patients = JSON.parse(localStorage.getItem('triagePatients') || '[]');
+        const container = document.getElementById('patients-list');
+        
+        if (!container) return;
+        
+        // تصفية المرضى
+        let filteredPatients = patients;
+        if (currentFilter !== 'all') {
+            filteredPatients = patients.filter(p => p.triageLevel === currentFilter);
+        }
+
+        if (filteredPatients.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">📋</div>
+                    <h3>لا توجد حالات</h3>
+                    <p>لا يوجد مرضى حالياً في هذه الفئة</p>
+                </div>
+            `;
+            return;
+        }
+
+        // ترتيب المرضى حسب الأولوية والوقت
+        filteredPatients.sort((a, b) => {
+            const levelOrder = { immediate: 1, urgent: 2, semi_urgent: 3, standard: 4 };
+            const levelDiff = levelOrder[a.triageLevel] - levelOrder[b.triageLevel];
+            if (levelDiff !== 0) return levelDiff;
+            return new Date(b.timestamp) - new Date(a.timestamp);
+        });
+
+        let html = '<div class="patients-table">';
+        
+        filteredPatients.forEach(patient => {
+            const levelData = triageData.triageLevels[patient.triageLevel];
+            const timeAgo = getTimeAgo(patient.timestamp);
+            
+            html += `
+                <div class="patient-card">
+                    <div class="patient-header">
+                        <h4>${patient.personalInfo.full_name}</h4>
+                        <span class="badge" style="background: ${levelData.color};">${levelData.name}</span>
+                    </div>
+                    <div class="patient-info">
+                        <p><strong>📱 الجوال:</strong> ${patient.personalInfo.mobile}</p>
+                        <p><strong>🎂 العمر:</strong> ${patient.personalInfo.age} سنة</p>
+                        <p><strong>⏰ الوقت:</strong> ${timeAgo}</p>
+                        <p><strong>📊 النقاط:</strong> ${patient.score}</p>
+                        <p><strong>🆔 رقم الهوية:</strong> ${patient.personalInfo.national_id}</p>
+                    </div>
+                    <button onclick="viewPatientDetails('${patient.id}')" class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">
+                        عرض التفاصيل الكاملة
+                    </button>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    // حساب الوقت المنقضي
+    function getTimeAgo(timestamp) {
+        const now = new Date();
+        const time = new Date(timestamp);
+        const diff = now - time;
+        const minutes = Math.floor(diff / 60000);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (days > 0) return `قبل ${days} ${days === 1 ? 'يوم' : 'أيام'}`;
+        if (hours > 0) return `قبل ${hours} ${hours === 1 ? 'ساعة' : 'ساعات'}`;
+        if (minutes > 0) return `قبل ${minutes} ${minutes === 1 ? 'دقيقة' : 'دقائق'}`;
+        return 'الآن';
+    }
+
+    // تحديث الإحصائيات
+    function updateStats() {
+        const patients = JSON.parse(localStorage.getItem('triagePatients') || '[]');
+        const stats = {
+            immediate: 0,
+            urgent: 0,
+            semi_urgent: 0,
+            standard: 0
+        };
+
+        patients.forEach(p => {
+            if (stats[p.triageLevel] !== undefined) {
+                stats[p.triageLevel]++;
+            }
+        });
+
+        const statsContainer = document.getElementById('stats-grid');
+        if (statsContainer) {
+            statsContainer.innerHTML = `
+                <div class="stat-card immediate">
+                    <div class="stat-number">${stats.immediate}</div>
+                    <div class="stat-label">طارئة جداً</div>
+                </div>
+                <div class="stat-card urgent">
+                    <div class="stat-number">${stats.urgent}</div>
+                    <div class="stat-label">عاجل</div>
+                </div>
+                <div class="stat-card semi-urgent">
+                    <div class="stat-number">${stats.semi_urgent}</div>
+                    <div class="stat-label">شبه عاجل</div>
+                </div>
+                <div class="stat-card standard">
+                    <div class="stat-number">${stats.standard}</div>
+                    <div class="stat-label">قياسي</div>
+                </div>
+            `;
+        }
+    }
+
+    // تصفية المرضى
+    function filterPatients(filter) {
+        currentFilter = filter;
+        
+        // تحديث أزرار التصفية
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+        
+        loadPatientsForDoctor();
+    }
+
+    // تحديث القائمة
+    function refreshPatients() {
+        loadPatientsForDoctor();
+        updateStats();
+        updateCurrentTime();
+    }
+
+    // عرض تفاصيل المريض
+    function viewPatientDetails(patientId) {
+        const patients = JSON.parse(localStorage.getItem('triagePatients') || '[]');
+        const patient = patients.find(p => p.id === patientId);
+        
+        if (!patient) return;
+        
+        const levelData = triageData.triageLevels[patient.triageLevel];
+        const modalBody = document.getElementById('modal-body');
+        
+        let html = `
+            <h2 style="color: var(--primary-color); margin-bottom: 2rem; text-align: center;">
+                تفاصيل المريض
+            </h2>
+            
+            <div class="detail-section">
+                <h4>المعلومات الشخصية</h4>
+                <div class="detail-row">
+                    <div class="detail-label">الاسم الكامل:</div>
+                    <div class="detail-value">${patient.personalInfo.full_name}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">رقم الهوية:</div>
+                    <div class="detail-value">${patient.personalInfo.national_id}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">العمر:</div>
+                    <div class="detail-value">${patient.personalInfo.age} سنة</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">رقم الجوال:</div>
+                    <div class="detail-value">${patient.personalInfo.mobile}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">الجنس:</div>
+                    <div class="detail-value">${patient.personalInfo.gender === 'male' ? 'ذكر' : 'أنثى'}</div>
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <h4>تقييم الحالة</h4>
+                <div class="detail-row">
+                    <div class="detail-label">مستوى الأولوية:</div>
+                    <div class="detail-value">
+                        <span class="badge" style="background: ${levelData.color};">${levelData.name}</span>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">إجمالي النقاط:</div>
+                    <div class="detail-value"><strong>${patient.score}</strong></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">وقت التسجيل:</div>
+                    <div class="detail-value">${new Date(patient.timestamp).toLocaleString('ar-SA')}</div>
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <h4>إجابات المريض</h4>
+        `;
+
+        // عرض الإجابات
+        for (const [key, value] of Object.entries(patient.answers)) {
+            if (key === 'health_conditions' && Array.isArray(value)) {
+                html += `
+                    <div class="detail-row">
+                        <div class="detail-label">الحالات الصحية:</div>
+                        <div class="detail-value">
+                            ${value.map(c => c.value + (c.detail ? ` (${c.detail})` : '')).join('، ')}
+                        </div>
+                    </div>
+                `;
+            } else if (typeof value === 'object') {
+                html += `
+                    <div class="detail-row">
+                        <div class="detail-label">${key}:</div>
+                        <div class="detail-value">${value.value}${value.description ? ` - ${value.description}` : ''}</div>
+                    </div>
+                `;
             }
         }
-    </script>
+
+        html += `
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button onclick="printPatientDetails()" class="btn btn-secondary" style="flex: 1;">طباعة</button>
+                <button onclick="closeModal()" class="btn btn-primary" style="flex: 1;">إغلاق</button>
+            </div>
+        `;
+
+        modalBody.innerHTML = html;
+        document.getElementById('patient-modal').classList.add('active');
+    }
+
+    // إغلاق النافذة المنبثقة
+    function closeModal() {
+        document.getElementById('patient-modal').classList.remove('active');
+    }
+
+    // طباعة تفاصيل المريض
+    function printPatientDetails() {
+        window.print();
+    }
+
+    // تصدير البيانات
+    function exportData() {
+        const patients = JSON.parse(localStorage.getItem('triagePatients') || '[]');
+        
+        if (patients.length === 0) {
+            alert('لا توجد بيانات للتصدير');
+            return;
+        }
+
+        const dataStr = JSON.stringify(patients, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `patients-${new Date().toISOString().split('T')[0]}.json`;
+        link.click();
+        
+        alert('✅ تم تصدير البيانات بنجاح');
+    }
+
+    // مسح جميع البيانات
+    function clearAllData() {
+        if (confirm('⚠️ هل أنت متأكد من حذف جميع بيانات المرضى؟ لا يمكن التراجع عن هذا الإجراء!')) {
+            if (confirm('⚠️ تأكيد نهائي: سيتم حذف جميع البيانات بشكل دائم!')) {
+                localStorage.removeItem('triagePatients');
+                refreshPatients();
+                alert('✅ تم مسح جميع البيانات');
+            }
+        }
+    }
+</script>
+```
+
 </body>
 </html>
