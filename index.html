@@ -1,30 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام تحديد أولوية الحالات السنية</title>
-    <link rel="stylesheet" href="styles.css"> 
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>نظام فرز الأسنان — Dental Triage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>عيادة الأسنان: نموذج تحديد الأولوية</h1>
-        
-        <div id="question-container">
-            </div>
-
-        <div class="navigation-buttons">
-            <button id="back-button" class="btn secondary-btn" style="display: none;">رجوع</button>
-            
-            <button id="next-button" class="btn primary-btn">التالي</button>
-        </div>
-        
-        <div id="message-area" class="alert-box" style="display: none;"></div>
-
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <!-- ضع هنا مسار الشعار إن وجد -->
+        <img src="assets/img/logo.png" alt="شعار الموقع" class="logo" onerror="this.style.display='none'">
+        <span class="brand-text">نظام فرز الأسنان</span>
+      </a>
+      <nav class="main-nav" aria-label="القائمة الرئيسية">
+        <a href="#about">عن النظام</a>
+        <a href="#steps">خطوات الفرز</a>
+        <a href="#contact">اتصل بنا</a>
+      </nav>
+      <button class="menu-toggle" aria-label="قائمة">☰</button>
     </div>
-    
-    <script src="script.js"></script>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <h1>فرّز الأعراض بسرعة وقرّر أولويات العلاج</h1>
+        <p class="lead">نظام إلكتروني بسيط يساعد في تصنيف حالات الأسنان الطارئة وتوجيه المريض أو المزود الطبي للخطوة المناسبة.</p>
+        <p class="cta-row">
+          <a class="btn primary" href="#steps">ابدأ الآن</a>
+          <a class="btn outline" href="#about">المزيد عن النظام</a>
+        </p>
+      </div>
+    </section>
+
+    <section id="steps" class="container section">
+      <h2 class="section-title">خطوات الفرز</h2>
+      <div class="grid cards">
+        <article class="card">
+          <h3>1. جمع الأعراض</h3>
+          <p>إجابة سريعة عن الألم، التورم، النزيف، أو الحمى.</p>
+        </article>
+        <article class="card">
+          <h3>2. تقييم الشدة</h3>
+          <p>تحديد ما إذا كانت الحالة طارئة، عاجلة، أم روتينية.</p>
+        </article>
+        <article class="card">
+          <h3>3. التوجيه</h3>
+          <p>اقتراح موعد أو إحالة للطوارئ أو نصائح منزلية أولية.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="container section muted">
+      <h2 class="section-title">عن النظام</h2>
+      <p>هذا النظام مصمّم لمساعدة الممارسين والمرضى على حد سواء لتقييم حالات الأسنان وتحديد مستوى الأولوية. يمكن ربطه بسجل المريض أو استخدامه كأداة مستقلة لتقديم إرشادات سريعة.</p>
+    </section>
+
+    <section id="contact" class="container section">
+      <h2 class="section-title">اتصل بنا</h2>
+      <p>للمساعدة أو لاقتراحات تحسين: <a href="mailto:contact@example.com">contact@example.com</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> نظام فرز الأسنان — جميع الحقوق محفوظة</p>
+    </div>
+  </footer>
+
+  <script>
+    // سنة تلقائية
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // تبسيط قائمة الهاتف
+    const toggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.main-nav');
+    toggle && toggle.addEventListener('click', () => {
+      nav.classList.toggle('open');
+    });
+  </script>
 </body>
 </html>
-
-
