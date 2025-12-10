@@ -1,178 +1,122 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>نظام فرز الأسنان — Dental Triage</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="نظام فرز طوارئ الأسنان - تقييم سريع للحالات الطارئة">
+    <title>نظام فرز طوارئ الأسنان</title>
+
+```
+<!-- ربط ملف CSS -->
+<link rel="stylesheet" href="Styles.css">
+
+<!-- خطوط عربية (اختياري) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+```
+
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="/">
-        <img src="assets/img/logo.png" alt="شعار الموقع" class="logo" onerror="this.style.display='none'">
-        <span class="brand-text">نظام فرز الأسنان</span>
-      </a>
-      <nav class="main-nav" aria-label="القائمة الرئيسية">
-        <a href="#about">عن النظام</a>
-        <a href="#triage">الفرز</a>
-        <a href="#contact">اتصل بنا</a>
-      </nav>
-      <button class="menu-toggle" aria-label="قائمة">☰</button>
-    </div>
-  </header>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-inner">
-        <h1>فرّز الأعراض بسرعة وقرّر أولويات العلاج</h1>
-        <p class="lead">أجب عن الأسئلة التالية بدقّة. الإجابات تظهر تحت كل سؤال بشكل عمودي لتسهيل القراءة.</p>
-        <p class="cta-row">
-          <a class="btn primary" href="#triage">ابدأ الفحص</a>
-          <a class="btn outline" href="#about">المزيد عن النظام</a>
-        </p>
-      </div>
-    </section>
-
-    <section id="triage" class="container section">
-      <h2 class="section-title">نموذج الفرز السريع</h2>
-
-      <form id="triageForm" class="triage-form" onsubmit="return false;">
-
-        <div class="question">
-          <label class="q-title">1. ما شدة الألم الآن؟</label>
-          <div class="options">
-            <label class="option"><input type="radio" name="pain" value="none"><span>لا ألم</span></label>
-            <label class="option"><input type="radio" name="pain" value="mild"><span>ألم بسيط</span></label>
-            <label class="option"><input type="radio" name="pain" value="moderate"><span>ألم متوسط</span></label>
-            <label class="option"><input type="radio" name="pain" value="severe"><span>ألم شديد</span></label>
-          </div>
-        </div>
-
-        <div class="question">
-          <label class="q-title">2. هل هناك تورم واضح في الوجه أو الفك؟</label>
-          <div class="options">
-            <label class="option"><input type="radio" name="swelling" value="no"><span>لا</span></label>
-            <label class="option"><input type="radio" name="swelling" value="mild"><span>طفيف</span></label>
-            <label class="option"><input type="radio" name="swelling" value="severe"><span>واضح ومؤلم</span></label>
-          </div>
-        </div>
-
-        <div class="question">
-          <label class="q-title">3. هل يوجد نزيف مستمر أو خروج صديد؟</label>
-          <div class="options">
-            <label class="option"><input type="radio" name="bleeding" value="no"><span>لا</span></label>
-            <label class="option"><input type="radio" name="bleeding" value="minor"><span>نزيف طفيف</span></label>
-            <label class="option"><input type="radio" name="bleeding" value="heavy"><span>نزيف مستمر أو صديد</span></label>
-          </div>
-        </div>
-
-        <div class="question">
-          <label class="q-title">4. هل لديك حمى أو شعور عام بالتوعك؟</label>
-          <div class="options">
-            <label class="option"><input type="radio" name="fever" value="no"><span>لا</span></label>
-            <label class="option"><input type="radio" name="fever" value="yes"><span>نعم</span></label>
-          </div>
-        </div>
-
-        <div class="question">
-          <label class="q-title">5. هل تعرّضت لصدمة أو حادث مؤخراً (كسر، ضربة)؟</label>
-          <div class="options">
-            <label class="option"><input type="radio" name="trauma" value="no"><span>لا</span></label>
-            <label class="option"><input type="radio" name="trauma" value="yes"><span>نعم</span></label>
-          </div>
-        </div>
-
-        <div class="form-actions">
-          <button id="evaluateBtn" class="btn primary">تقييم الحالة</button>
-          <button id="resetBtn" class="btn outline" type="button">إعادة ضبط</button>
-        </div>
-
-        <div id="result" class="result-card" aria-live="polite" hidden>
-          <h3 id="resultTitle"></h3>
-          <p id="resultText"></p>
-        </div>
-
-      </form>
-
-    </section>
-
-    <section id="about" class="container section muted">
-      <h2 class="section-title">عن النظام</h2>
-      <p>هذا النظام مصمّم لمساعدة الممارسين والمرضى على حد سواء لتقييم حالات الأسنان وتحديد مستوى الأولوية. المعلومات المعروضة هي إشارات إرشادية وليست بديلاً عن الفحص الطبي.</p>
-    </section>
-
-    <section id="contact" class="container section">
-      <h2 class="section-title">اتصل بنا</h2>
-      <p>للمساعدة أو لاقتراحات تحسين: <a href="mailto:contact@example.com">contact@example.com</a></p>
-    </section>
-  </main>
-
-  <footer class="site-footer">
+```
+<!-- الهيدر -->
+<header class="main-header">
     <div class="container">
-      <p>© <span id="year"></span> نظام فرز الأسنان — جميع الحقوق محفوظة</p>
+        <div class="header-content">
+            <div class="logo">
+                <h1>🦷 نظام فرز طوارئ الأسنان</h1>
+                <p class="subtitle">تقييم سريع ودقيق لحالتك</p>
+            </div>
+            <nav class="header-nav">
+                <a href="index.html" class="nav-link active">الصفحة الرئيسية</a>
+                <a href="doctor_login.html" class="nav-link">دخول الأطباء</a>
+            </nav>
+        </div>
     </div>
-  </footer>
+</header>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+<!-- المحتوى الرئيسي -->
+<main class="main-content">
+    <div class="container">
+        
+        <!-- بطاقة الترحيب (تظهر في البداية فقط) -->
+        <div class="welcome-card" id="welcome-card">
+            <div class="welcome-icon">🏥</div>
+            <h2>مرحباً بك في نظام فرز طوارئ الأسنان</h2>
+            <p>سنساعدك في تقييم حالتك وتحديد مستوى الأولوية</p>
+            <p class="welcome-note">⏱️ الوقت المتوقع: 3-5 دقائق</p>
+            <div class="welcome-steps">
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <span class="step-text">المعلومات الشخصية</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <span class="step-text">تقييم الأعراض</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <span class="step-text">الحالة الصحية</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <span class="step-text">النتيجة والتوجيه</span>
+                </div>
+            </div>
+            <button onclick="startTriage()" class="btn btn-primary btn-large">ابدأ التقييم الآن</button>
+        </div>
 
-    // قائمة الهاتف
-    const toggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('.main-nav');
-    toggle && toggle.addEventListener('click', () => { nav.classList.toggle('open'); });
+        <!-- حاوية الأسئلة (يتم ملؤها من JavaScript) -->
+        <div id="questions-container"></div>
 
-    // تقييم الفرز
-    function getValue(name){
-      const el = document.querySelector(`input[name="${name}"]:checked`);
-      return el ? el.value : null;
+    </div>
+</main>
+
+<!-- الفوتر -->
+<footer class="main-footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>نظام فرز طوارئ الأسنان</h3>
+                <p>نظام ذكي لتقييم الحالات الطارئة وتحديد الأولويات</p>
+            </div>
+            <div class="footer-section">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="index.html">الصفحة الرئيسية</a></li>
+                    <li><a href="doctor_login.html">دخول الأطباء</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>تواصل معنا</h4>
+                <p>📞 الطوارئ: 997</p>
+                <p>📧 البريد: info@dental-triage.sa</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 نظام فرز طوارئ الأسنان. جميع الحقوق محفوظة.</p>
+            <p class="privacy-note">🔒 جميع البيانات سرية ومحمية</p>
+        </div>
+    </div>
+</footer>
+
+<!-- ربط ملف JavaScript -->
+<script src="script.js"></script>
+
+<script>
+    // إخفاء بطاقة الترحيب عند بدء التقييم
+    function startTriage() {
+        const welcomeCard = document.getElementById('welcome-card');
+        if (welcomeCard) {
+            welcomeCard.style.display = 'none';
+        }
+        // بدء عرض المعلومات الشخصية (من script.js)
+        renderPersonalInfo();
     }
+</script>
+```
 
-    function evaluate(){
-      const pain = getValue('pain');
-      const swelling = getValue('swelling');
-      const bleeding = getValue('bleeding');
-      const fever = getValue('fever');
-      const trauma = getValue('trauma');
-
-      // قواعد بسيطة لتحديد الأولوية
-      if(trauma === 'yes' || bleeding === 'heavy' || swelling === 'severe'){
-        return {level:'طارئة', color:'#d9534f', text:'قد تحتاج الحالة لتوجّه فوري إلى قسم الطوارئ أو طبيب مختص. تواصل مع الطوارئ أو عيادة قريبة.'};
-      }
-      if(fever === 'yes' && swelling !== 'no'){
-        return {level:'عاجلة', color:'#f0ad4e', text:'يوجد احتمال التهاب منتشر؛ يُستحسن مراجعة الطبيب خلال 24 ساعة.'};
-      }
-      if(pain === 'severe' || swelling === 'mild' && pain === 'moderate'){
-        return {level:'عاجلة', color:'#f0ad4e', text:'ألم شديد أو تورّم يستدعي موعد عاجل خلال 24-48 ساعة.'};
-      }
-      if(pain === 'moderate' || bleeding === 'minor'){
-        return {level:'متو��طة', color:'#5bc0de', text:'يمكن حجز موعد خلال أيام قليلة أو اتباع نصائح منزلية موقتة.'};
-      }
-      return {level:'روتينية', color:'#5cb85c', text:'لا يعد الوضع طارئًا. متابعة مع زيارة روتينية للطبيب عند الحاجة.'};
-    }
-
-    const evaluateBtn = document.getElementById('evaluateBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const resultEl = document.getElementById('result');
-    const resultTitle = document.getElementById('resultTitle');
-    const resultText = document.getElementById('resultText');
-
-    evaluateBtn.addEventListener('click', () => {
-      const res = evaluate();
-      resultTitle.textContent = `نتيجة التقييم: ${res.level}`;
-      resultText.textContent = res.text;
-      // RTL-aware border
-      resultEl.style.borderInlineStart = `6px solid ${res.color}`;
-      resultEl.hidden = false;
-      resultEl.scrollIntoView({behavior:'smooth', block:'center'});
-    });
-
-    resetBtn.addEventListener('click', () => {
-      document.getElementById('triageForm').reset();
-      resultEl.hidden = true;
-    });
-  </script>
 </body>
 </html>
