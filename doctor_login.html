@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل دخول الأطباء</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <style>
+        /* تنسيق خاص لشاشة تسجيل الدخول */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #e9ecef;
+        }
+        .login-box {
+            max-width: 400px;
+            width: 100%;
+            padding: 40px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #007bff;
+            border-bottom: none;
+        }
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+        .login-box button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>تسجيل دخول الطبيب</h2>
+        
+        <div class="input-group">
+            <label for="username">اسم المستخدم (Username):</label>
+            <input type="text" id="username" required>
+        </div>
+        
+        <div class="input-group">
+            <label for="password">كلمة السر (Password):</label>
+            <input type="password" id="password" required>
+        </div>
+        
+        <button onclick="handleLogin()">دخول</button>
+        
+        <div id="login-message" style="color: red; text-align: center; margin-top: 15px; display: none;"></div>
+        
+    </div>
+
+    <script>
+        // ملاحظة هامة: هذا التحقق هو للمثال والتجربة المحلية فقط. 
+        // يجب أن يتم التحقق الفعلي لكلمة السر عبر الواجهة الخلفية (Backend) لأسباب أمنية.
+        const CORRECT_PASSWORD = "Doctor123";
+        const CORRECT_USERNAME = "AdminDoc";
+
+        function handleLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const messageArea = document.getElementById('login-message');
+
+            if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
+                // في التطبيق الحقيقي: يتم توجيه الطبيب إلى لوحة التحكم
+                messageArea.style.color = 'green';
+                messageArea.textContent = 'تم تسجيل الدخول بنجاح! جاري التوجيه للوحة التحكم...';
+                messageArea.style.display = 'block';
+                // window.location.href = '/doctor-dashboard'; 
+            } else {
+                messageArea.style.color = 'red';
+                messageArea.textContent = 'خطأ في اسم المستخدم أو كلمة السر.';
+                messageArea.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
