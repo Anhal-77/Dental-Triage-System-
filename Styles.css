@@ -1,157 +1,825 @@
-/* ===================================================================
-   1. التنسيق العام والخطوط
-   =================================================================== */
+/* ================================================
+نظام فرز طوارئ الأسنان - التصميم الكامل
+================================================ */
+
+/* ================ المتغيرات العامة ================ */
+:root {
+/* الألوان الرئيسية */
+–primary-color: #0066CC;
+–secondary-color: #00A3E0;
+–success-color: #10B981;
+–warning-color: #FBBF24;
+–danger-color: #DC2626;
+–urgent-color: #F97316;
+
+```
+/* الألوان الأساسية */
+--text-primary: #1F2937;
+--text-secondary: #6B7280;
+--border-color: #E5E7EB;
+--bg-light: #F9FAFB;
+--bg-white: #FFFFFF;
+
+/* الظلال */
+--shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+--shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+--shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+/* المسافات */
+--spacing-xs: 0.5rem;
+--spacing-sm: 1rem;
+--spacing-md: 1.5rem;
+--spacing-lg: 2rem;
+--spacing-xl: 3rem;
+
+/* الحدود */
+--radius-sm: 0.375rem;
+--radius-md: 0.5rem;
+--radius-lg: 0.75rem;
+--radius-xl: 1rem;
+```
+
+}
+
+/* ================ الإعدادات العامة ================ */
+
+- {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+
+html {
+scroll-behavior: smooth;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
-    color: #333;
-    direction: rtl; /* دعم اللغة العربية */
-    text-align: right;
-    padding: 20px;
-    margin: 0;
+font-family: ‘Cairo’, ‘Segoe UI’, Tahoma, Geneva, Verdana, sans-serif;
+background-color: var(–bg-light);
+color: var(–text-primary);
+line-height: 1.6;
+direction: rtl;
+text-align: right;
 }
 
 .container {
-    max-width: 700px;
-    margin: 40px auto;
-    padding: 30px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+max-width: 1200px;
+margin: 0 auto;
+padding: 0 var(–spacing-md);
 }
 
-h1, h2 {
-    color: #007bff;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 25px;
+/* ================ الهيدر ================ */
+.main-header {
+background: linear-gradient(135deg, var(–primary-color), var(–secondary-color));
+color: white;
+padding: var(–spacing-md) 0;
+box-shadow: var(–shadow-md);
+position: sticky;
+top: 0;
+z-index: 1000;
 }
 
-/* ===================================================================
-   2. تنسيق حقول الإدخال والـ PII
-   =================================================================== */
-.input-group {
-    margin-bottom: 15px;
-}
-.input-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
+.header-content {
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+gap: var(–spacing-md);
 }
 
-input[type="text"], 
-input[type="number"], 
-select, 
-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-sizing: border-box;
-    font-size: 1em;
-    transition: border-color 0.3s;
-}
-input[type="text"]:focus, 
-input[type="number"]:focus, 
-select:focus, 
-textarea:focus {
-    border-color: #007bff;
-    outline: none;
+.logo h1 {
+font-size: 1.75rem;
+font-weight: 700;
+margin-bottom: 0.25rem;
 }
 
-/* ===================================================================
-   3. تنسيق خيارات الراديو (Radio Options)
-   =================================================================== */
-.option-label {
-    display: block;
-    padding: 15px;
-    margin-bottom: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s;
-    font-size: 1.1em;
-    position: relative;
+.logo .subtitle {
+font-size: 0.875rem;
+opacity: 0.9;
 }
 
-.option-label:hover {
-    background-color: #f0f8ff;
-    border-color: #007bff;
+.header-nav {
+display: flex;
+gap: var(–spacing-md);
 }
 
-.option-label input[type="radio"],
-.option-label input[type="checkbox"] {
-    /* إخفاء عنصر الإدخال الأصلي */
-    opacity: 0; 
-    position: absolute;
+.nav-link {
+color: white;
+text-decoration: none;
+padding: var(–spacing-xs) var(–spacing-md);
+border-radius: var(–radius-md);
+transition: all 0.3s ease;
+font-weight: 500;
 }
 
-/* تظليل الخيار المختار */
-.option-label input[type="radio"]:checked + span,
-.option-label input[type="checkbox"]:checked + span {
-    background-color: #e6f7ff;
-    border-color: #007bff;
-    font-weight: bold;
-}
-/* تنسيق عندما يكون الخيار محدداً */
-.option-label:has(input:checked) {
-    background-color: #e6f7ff;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+.nav-link:hover,
+.nav-link.active {
+background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* ===================================================================
-   4. تنسيق الأزرار
-   =================================================================== */
-.navigation-buttons {
-    margin-top: 30px;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
-    text-align: left; /* لتحريك الأزرار لليسار */
+/* ================ المحتوى الرئيسي ================ */
+.main-content {
+min-height: calc(100vh - 200px);
+padding: var(–spacing-xl) 0;
 }
 
+/* ================ بطاقة الترحيب ================ */
+.welcome-card {
+background: var(–bg-white);
+border-radius: var(–radius-xl);
+padding: var(–spacing-xl);
+box-shadow: var(–shadow-lg);
+text-align: center;
+max-width: 800px;
+margin: 0 auto var(–spacing-xl);
+}
+
+.welcome-icon {
+font-size: 4rem;
+margin-bottom: var(–spacing-md);
+}
+
+.welcome-card h2 {
+font-size: 2rem;
+color: var(–primary-color);
+margin-bottom: var(–spacing-md);
+}
+
+.welcome-card > p {
+font-size: 1.125rem;
+color: var(–text-secondary);
+margin-bottom: var(–spacing-sm);
+}
+
+.welcome-note {
+display: inline-block;
+background-color: var(–bg-light);
+padding: var(–spacing-xs) var(–spacing-md);
+border-radius: var(–radius-md);
+font-weight: 600;
+margin-bottom: var(–spacing-lg) !important;
+}
+
+.welcome-steps {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+gap: var(–spacing-md);
+margin: var(–spacing-xl) 0;
+}
+
+.step {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: var(–spacing-sm);
+}
+
+.step-number {
+width: 50px;
+height: 50px;
+background: linear-gradient(135deg, var(–primary-color), var(–secondary-color));
+color: white;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.5rem;
+font-weight: 700;
+}
+
+.step-text {
+font-size: 0.875rem;
+font-weight: 600;
+color: var(–text-secondary);
+}
+
+/* ================ المعلومات الشخصية ================ */
+.personal-info-section {
+background: var(–bg-white);
+border-radius: var(–radius-xl);
+padding: var(–spacing-xl);
+box-shadow: var(–shadow-lg);
+max-width: 700px;
+margin: 0 auto;
+}
+
+.personal-info-section h2 {
+font-size: 1.75rem;
+color: var(–primary-color);
+margin-bottom: var(–spacing-lg);
+text-align: center;
+padding-bottom: var(–spacing-md);
+border-bottom: 2px solid var(–border-color);
+}
+
+/* ================ النماذج ================ */
+.form-group {
+margin-bottom: var(–spacing-lg);
+}
+
+.form-group label {
+display: block;
+font-weight: 600;
+margin-bottom: var(–spacing-xs);
+color: var(–text-primary);
+}
+
+.required {
+color: var(–danger-color);
+margin-right: 0.25rem;
+}
+
+.form-group input[type=“text”],
+.form-group input[type=“number”],
+.form-group input[type=“tel”] {
+width: 100%;
+padding: var(–spacing-sm);
+border: 2px solid var(–border-color);
+border-radius: var(–radius-md);
+font-size: 1rem;
+transition: all 0.3s ease;
+font-family: inherit;
+}
+
+.form-group input:focus {
+outline: none;
+border-color: var(–primary-color);
+box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.radio-label {
+display: inline-flex;
+align-items: center;
+margin-left: var(–spacing-md);
+cursor: pointer;
+padding: var(–spacing-sm);
+border: 2px solid var(–border-color);
+border-radius: var(–radius-md);
+transition: all 0.3s ease;
+}
+
+.radio-label:hover {
+border-color: var(–primary-color);
+background-color: var(–bg-light);
+}
+
+.radio-label input[type=“radio”] {
+margin-left: var(–spacing-xs);
+cursor: pointer;
+width: 18px;
+height: 18px;
+}
+
+/* ================ الأسئلة ================ */
+.question-container {
+background: var(–bg-white);
+border-radius: var(–radius-xl);
+padding: var(–spacing-xl);
+box-shadow: var(–shadow-lg);
+max-width: 800px;
+margin: 0 auto;
+}
+
+.progress-bar {
+width: 100%;
+height: 8px;
+background-color: var(–border-color);
+border-radius: var(–radius-lg);
+margin-bottom: var(–spacing-xl);
+overflow: hidden;
+}
+
+.progress {
+height: 100%;
+background: linear-gradient(90deg, var(–primary-color), var(–secondary-color));
+border-radius: var(–radius-lg);
+transition: width 0.5s ease;
+}
+
+.question-container h3 {
+font-size: 1.5rem;
+color: var(–text-primary);
+margin-bottom: var(–spacing-lg);
+line-height: 1.4;
+}
+
+.option {
+margin-bottom: var(–spacing-md);
+}
+
+.option label {
+display: flex;
+align-items: flex-start;
+padding: var(–spacing-md);
+border: 2px solid var(–border-color);
+border-radius: var(–radius-lg);
+cursor: pointer;
+transition: all 0.3s ease;
+background-color: var(–bg-white);
+}
+
+.option label:hover {
+border-color: var(–primary-color);
+background-color: var(–bg-light);
+transform: translateX(-3px);
+}
+
+.option input[type=“radio”],
+.option input[type=“checkbox”] {
+margin-left: var(–spacing-sm);
+cursor: pointer;
+width: 20px;
+height: 20px;
+flex-shrink: 0;
+}
+
+.option input:checked + label,
+.option label:has(input:checked) {
+border-color: var(–primary-color);
+background-color: rgba(0, 102, 204, 0.05);
+font-weight: 600;
+}
+
+/* ================ الحقول الشرطية ================ */
+.conditional-input {
+margin-top: var(–spacing-md);
+padding: var(–spacing-md);
+background-color: var(–bg-light);
+border-radius: var(–radius-md);
+border: 2px dashed var(–border-color);
+}
+
+.conditional-input label {
+display: block;
+font-weight: 600;
+margin-bottom: var(–spacing-xs);
+color: var(–text-secondary);
+font-size: 0.875rem;
+}
+
+.conditional-input textarea {
+width: 100%;
+padding: var(–spacing-sm);
+border: 2px solid var(–border-color);
+border-radius: var(–radius-md);
+font-size: 1rem;
+font-family: inherit;
+resize: vertical;
+min-height: 80px;
+}
+
+.conditional-input textarea:focus {
+outline: none;
+border-color: var(–primary-color);
+}
+
+/* ================ الأزرار ================ */
 .btn {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.1em;
-    transition: background-color 0.3s, opacity 0.3s;
-    margin-left: 10px; /* مسافة بين الأزرار */
+display: inline-block;
+padding: var(–spacing-sm) var(–spacing-lg);
+border: none;
+border-radius: var(–radius-md);
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+text-decoration: none;
+font-family: inherit;
 }
 
-.primary-btn {
-    background-color: #28a745; /* لون أخضر للإرسال/التالي */
-    color: white;
-}
-.primary-btn:hover {
-    background-color: #218838;
+.btn-primary {
+background: linear-gradient(135deg, var(–primary-color), var(–secondary-color));
+color: white;
 }
 
-.secondary-btn {
-    background-color: #6c757d; /* لون رمادي للرجوع */
-    color: white;
-}
-.secondary-btn:hover {
-    background-color: #5a6268;
+.btn-primary:hover {
+transform: translateY(-2px);
+box-shadow: var(–shadow-lg);
 }
 
-/* ===================================================================
-   5. تنسيق منطقة الرسائل (Alerts)
-   =================================================================== */
-.alert-box {
-    padding: 20px;
-    margin-top: 20px;
-    border-radius: 8px;
-    font-weight: bold;
+.btn-secondary {
+background-color: var(–text-secondary);
+color: white;
+}
+
+.btn-secondary:hover {
+background-color: var(–text-primary);
+}
+
+.btn-danger {
+background-color: var(–danger-color);
+color: white;
+}
+
+.btn-danger:hover {
+background-color: #B91C1C;
+}
+
+.btn-outline {
+background-color: transparent;
+border: 2px solid var(–primary-color);
+color: var(–primary-color);
+}
+
+.btn-outline:hover {
+background-color: var(–primary-color);
+color: white;
+}
+
+.btn-large {
+padding: var(–spacing-md) var(–spacing-xl);
+font-size: 1.125rem;
+}
+
+.btn-sm {
+padding: var(–spacing-xs) var(–spacing-md);
+font-size: 0.875rem;
+}
+
+/* ================ الحالات الصحية ================ */
+.health-conditions-section {
+background: var(–bg-white);
+border-radius: var(–radius-xl);
+padding: var(–spacing-xl);
+box-shadow: var(–shadow-lg);
+max-width: 800px;
+margin: 0 auto;
+}
+
+.health-conditions-section h3 {
+font-size: 1.5rem;
+color: var(–primary-color);
+margin-bottom: var(–spacing-sm);
+}
+
+.note {
+font-size: 0.875rem;
+color: var(–text-secondary);
+margin-bottom: var(–spacing-lg);
+font-style: italic;
+}
+
+/* ================ التنبيهات ================ */
+.emergency-alert {
+background: var(–bg-white);
+border-radius: var(–radius-xl);
+padding: var(–spacing-xl);
+box-shadow: var(–shadow-xl);
+max-width: 600px;
+margin: 0 auto;
+text-align: center;
+border: 4px solid var(–danger-color);
+}
+
+.alert-icon {
+font-size: 5rem;
+margin-bottom: var(–spacing-md);
+animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+0%, 100% { transform: scale(1); }
+50% { transform: scale(1.1); }
+}
+
+.emergency-alert h2 {
+font-size: 2rem;
+color: var(–danger-color);
+margin-bottom: var(–spacing-md);
+}
+
+.emergency-alert p {
+font-size: 1.25rem;
+margin-bottom: var(–spacing-xl);
+line-height: 1.6;
+}
+
+/* ================ رسائل المعلومات ================ */
+.message-box {
+background: var(–bg-white);
+border-radius: var(–radius-xl);
+padding: var(–spacing-xl);
+box-shadow: var(–shadow-lg);
+max-width: 600px;
+margin: 0 auto;
+text-align: center;
+}
+
+.message-icon {
+font-size: 4rem;
+margin-bottom: var(–spacing-md);
+}
+
+.message-box p {
+font-size: 1.125rem;
+margin-bottom: var(–spacing-lg);
+}
+
+/* ================ النتائج ================ */
+.results-section {
+background: var(–bg-white);
+border-radius: var(–radius-xl);
+padding: var(–spacing-xl);
+box-shadow: var(–shadow-lg);
+max-width: 800px;
+margin: 0 auto;
+}
+
+.results-section h2 {
+font-size: 2rem;
+color: var(–primary-color);
+margin-bottom: var(–spacing-xl);
+text-align: center;
+}
+
+.triage-result {
+border: 3px solid;
+border-radius: var(–radius-xl);
+padding: var(–spacing-xl);
+margin-bottom: var(–spacing-xl);
+text-align: center;
+}
+
+.triage-badge {
+display: inline-block;
+padding: var(–spacing-md) var(–spacing-xl);
+border-radius: var(–radius-lg);
+color: white;
+font-size: 1.5rem;
+font-weight: 700;
+margin-bottom: var(–spacing-md);
+}
+
+.result-details {
+text-align: right;
+margin-top: var(–spacing-lg);
+}
+
+.result-details p {
+font-size: 1.125rem;
+margin-bottom: var(–spacing-sm);
+padding: var(–spacing-sm);
+background-color: var(–bg-light);
+border-radius: var(–radius-md);
+}
+
+/* ================ ملخص المريض ================ */
+.patient-summary {
+background-color: var(–bg-light);
+border-radius: var(–radius-lg);
+padding: var(–spacing-lg);
+margin-bottom: var(–spacing-xl);
+}
+
+.patient-summary h3 {
+font-size: 1.25rem;
+margin-bottom: var(–spacing-md);
+color: var(–text-primary);
+}
+
+.summary-item {
+padding: var(–spacing-sm);
+margin-bottom: var(–spacing-xs);
+border-right: 3px solid var(–primary-color);
+padding-right: var(–spacing-md);
+}
+
+/* ================ أزرار الإجراءات ================ */
+.action-buttons {
+display: flex;
+gap: var(–spacing-md);
+justify-content: center;
+flex-wrap: wrap;
+}
+
+/* ================ بطاقات المرضى (للطبيب) ================ */
+.patients-table {
+display: grid;
+gap: var(–spacing-md);
+}
+
+.patient-card {
+background: var(–bg-white);
+border-radius: var(–radius-lg);
+padding: var(–spacing-lg);
+box-shadow: var(–shadow-md);
+transition: all 0.3s ease;
+}
+
+.patient-card:hover {
+transform: translateY(-2px);
+box-shadow: var(–shadow-lg);
+}
+
+.patient-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: var(–spacing-md);
+padding-bottom: var(–spacing-md);
+border-bottom: 2px solid var(–border-color);
+}
+
+.patient-header h4 {
+font-size: 1.25rem;
+color: var(–text-primary);
+}
+
+.badge {
+display: inline-block;
+padding: var(–spacing-xs) var(–spacing-md);
+border-radius: var(–radius-md);
+color: white;
+font-size: 0.875rem;
+font-weight: 600;
+}
+
+.patient-info p {
+margin-bottom: var(–spacing-xs);
+color: var(–text-secondary);
+}
+
+/* ================ الفوتر ================ */
+.main-footer {
+background-color: var(–text-primary);
+color: white;
+padding: var(–spacing-xl) 0 var(–spacing-md);
+margin-top: var(–spacing-xl);
+}
+
+.footer-content {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: var(–spacing-xl);
+margin-bottom: var(–spacing-xl);
+}
+
+.footer-section h3,
+.footer-section h4 {
+margin-bottom: var(–spacing-md);
+color: white;
+}
+
+.footer-section p {
+margin-bottom: var(–spacing-xs);
+opacity: 0.9;
+}
+
+.footer-section ul {
+list-style: none;
+}
+
+.footer-section ul li {
+margin-bottom: var(–spacing-xs);
+}
+
+.footer-section ul li a {
+color: white;
+text-decoration: none;
+opacity: 0.9;
+transition: opacity 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+opacity: 1;
+}
+
+.footer-bottom {
+text-align: center;
+padding-top: var(–spacing-md);
+border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.privacy-note {
+font-size: 0.875rem;
+margin-top: var(–spacing-xs);
+opacity: 0.8;
+}
+
+/* ================ التجاوبية (Responsive) ================ */
+@media (max-width: 768px) {
+.header-content {
+flex-direction: column;
+text-align: center;
+}
+
+```
+.logo h1 {
+    font-size: 1.5rem;
+}
+
+.welcome-card h2 {
+    font-size: 1.5rem;
+}
+
+.welcome-steps {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.action-buttons {
+    flex-direction: column;
+}
+
+.action-buttons .btn {
+    width: 100%;
+}
+
+.footer-content {
+    grid-template-columns: 1fr;
     text-align: center;
-    font-size: 1.2em;
+}
+```
+
 }
 
-/* تنسيق تحذير الطوارئ */
-.alert-box[style*="721c24"] { /* لون أحمر للخطر */
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+@media (max-width: 480px) {
+.container {
+padding: 0 var(–spacing-sm);
+}
+
+```
+.personal-info-section,
+.question-container,
+.results-section {
+    padding: var(--spacing-md);
+}
+
+.welcome-steps {
+    grid-template-columns: 1fr;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+}
+
+.radio-label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    margin-left: 0;
+}
+```
+
+}
+
+/* ================ الطباعة ================ */
+@media print {
+.main-header,
+.main-footer,
+.action-buttons,
+.welcome-card {
+display: none;
+}
+
+```
+.results-section {
+    box-shadow: none;
+    border: 1px solid var(--border-color);
+}
+```
+
+}
+
+/* ================ الرسوم المتحركة ================ */
+@keyframes fadeIn {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.question-container,
+.personal-info-section,
+.results-section,
+.emergency-alert {
+animation: fadeIn 0.5s ease;
+}
+
+/* ================ تحسينات إضافية ================ */
+::selection {
+background-color: var(–primary-color);
+color: white;
+}
+
+::-webkit-scrollbar {
+width: 10px;
+}
+
+::-webkit-scrollbar-track {
+background: var(–bg-light);
+}
+
+::-webkit-scrollbar-thumb {
+background: var(–primary-color);
+border-radius: var(–radius-md);
+}
+
+::-webkit-scrollbar-thumb:hover {
+background: var(–secondary-color);
 }
